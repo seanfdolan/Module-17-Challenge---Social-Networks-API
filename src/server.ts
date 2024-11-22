@@ -1,4 +1,4 @@
-
+// Import the express module
 import express from 'express';
 import routes from './routes/index.js';
 import db from './config/connection.js';

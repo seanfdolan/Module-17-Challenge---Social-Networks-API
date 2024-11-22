@@ -3,8 +3,8 @@ import mongoose, { Schema } from 'mongoose';
 interface IUser extends Document {
   username: string;
   email: string;
-  thoughts: mongoose.Types.ObjectId[];
-  friends: mongoose.Types.ObjectId[];
+  thoughts: Schema.Types.ObjectId[];
+  friends: Schema.Types.ObjectId[]; // Array of _id values referencing the User model (self-reference)
 }
 
 // User Schema
@@ -38,10 +38,7 @@ const userSchema = new Schema({
     virtuals: true,
   },
 });
-// Virtual for friend count
-userSchema.virtual('friendCount').get(function () {
-  return this.friends.length;
-});
 
 const User = mongoose.model('User', userSchema);
+
 export default User;

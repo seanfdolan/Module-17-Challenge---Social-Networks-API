@@ -1,12 +1,6 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
-
-interface IThought extends Document {
-  thoughtText: string;
-  createdAt: Date;
-  username: string;
-  reactions: IReaction[];
-}
+import { Schema, Types, model, type Document } from 'mongoose';
+// import dateFormat from '../utils/dateFormat';
 
 interface IReaction extends Document {
   reactionId: mongoose.Types.ObjectId;
@@ -15,8 +9,15 @@ interface IReaction extends Document {
   createdAt: Date;
 }
 
+interface IThought extends Document {
+  thoughtText: string;
+  createdAt: Date;
+  username: string;
+  reactions: IReaction[];
+}
+
 // Reaction Schema (Subdocument)
-const reactionSchema = new Schema({
+const reactionSchema = new Schema<IReaction>({
   reactionId: {
     type: Schema.Types.ObjectId,
     default: () => new mongoose.Types.ObjectId(),
@@ -38,7 +39,7 @@ const reactionSchema = new Schema({
 });
 
 // Thought Schema
-const thoughtSchema = new Schema({
+const thoughtSchema = new Schema<IThought>({
   thoughtText: {
     type: String,
     required: true,
@@ -56,11 +57,8 @@ const thoughtSchema = new Schema({
   reactions: [reactionSchema],
 });
 
-// Virtual for reaction count
-thoughtSchema.virtual('reactionCount').get(function () {
-  return this.reactions.length;
-});
+const Thought = model('Thought', thoughtSchema);
+const Reaction = model("Reaction", reactionSchema);
 
-const Thought = mongoose.model('Thought', thoughtSchema);
 export default Thought;
 

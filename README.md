@@ -49,3 +49,6 @@ Check out my GitHub page, download the repo and get to work.
 
 ## Tests
 Insomnia was used to test out the functionality. 
+
+## Walkthrough Video
+https://app.screencastify.com/v3/watch/cwGTyfHhjP8qNue8mZCY

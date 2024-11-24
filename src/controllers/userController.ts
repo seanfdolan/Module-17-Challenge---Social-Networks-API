@@ -1,9 +1,9 @@
 
-import { User, Thought } from "../models";
+import { User, Thought } from "../models/index.js";
 
 import { ObjectId } from 'mongodb';
 // import { User} from '../models/index.js';
-import { Request, Response } from 'express';
+import { type Request, type Response } from 'express';
 
 
   // Get all users
@@ -22,13 +22,14 @@ export const getUsers = async (_req: Request, res: Response) => {
   export const getSingleUser = async (req: Request, res: Response) => {
     const { userId } = req.params;
     try {
-        const user = await User.findById(userId);
+        const user = await User.findOne({_id: userId});
         if (!user) {
-            res.json(user);
-            } else {
-                res.status(404).json({
+          res.status(404).json({
                     message: 'User not found'
-                });
+                  });
+            } else {
+              res.json(user);
+            
             }
     } catch (error: any) {
         res.status(500).json({
@@ -98,7 +99,7 @@ export const getUsers = async (_req: Request, res: Response) => {
 }
 
   // Add friend to friend list
-export const addFriend = async (req: Request, res: Response) => {
+export const addFriend = async (req: any, res: any) => {
   console.log('You are adding a friend');
   console.log(req.body);
   try {
@@ -121,7 +122,7 @@ export const addFriend = async (req: Request, res: Response) => {
 }
 
   // Remove friend from friend list
-export const removeFriend = async (req: Request, res: Response) => {
+export const removeFriend = async (req: any, res: any) => {
   try {
       const user = await User.findOneAndUpdate(
           { _id: req.params.userId },
